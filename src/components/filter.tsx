@@ -13,8 +13,8 @@ function Filter(props: FilterProps) {
   const change = debounce(changeVal, 1000);
 
   return (
-    <div className="flex flex-row my-4">
-      <div className="flex basis-1/6 text-xl text-black">Filter by age:</div>
+    <div className="flex items-center my-4">
+      <div className="text-xl text-black">Filter by age:</div>
       <div className="basis-1/2">
         <MultiRangeSlider
           min={0}
@@ -30,12 +30,9 @@ function Filter(props: FilterProps) {
             boxShadow: "none",
             padding: "15px 10px",
           }}
-          thumbLeftColor="lime"
-          thumbRightColor="lime"
           ruler={false}
         />
       </div>
-      <div className="flex basis-1/4" />
     </div>
   );
 }

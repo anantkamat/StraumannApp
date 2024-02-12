@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Patient } from "../common/types";
-import { getDisplayYear, getInitials } from "../common/utils";
+import {
+  capitalize,
+  getDisplayYear,
+  getInitials,
+  getRandomBG,
+} from "../common/utils";
 import DetailsModal from "./detailsModal";
 
 interface ItemProps {
@@ -14,40 +19,49 @@ function PatientItem(props: ItemProps) {
   const toggleModal = () => {
     setShowModal(!showModal);
   };
-  console.warn("showModal", showModal);
 
   return (
     <>
-      <tr key={patient?.resource?.id} className="border-b bg-neutral-100">
-        <td className="whitespace-nowrap px-6 py-4 font-medium">
-          <div className="w-8 h-8 bg-slate-200 rounded-full p-2 flex items-center justify-center">
+      <tr
+        key={patient?.resource?.id}
+        className="mb-1 rounded-md overflow-hidden border-b shadow-sm"
+      >
+        <td className=" bg-white whitespace-nowrap px-6 py-4 font-medium rounded-bl-md rounded-tl-md">
+          <div
+            className="w-8 h-8 rounded-full p-2 flex items-center justify-center"
+            style={{ backgroundColor: getRandomBG() }}
+          >
             {getInitials(
               patient?.resource?.name[0]?.text ||
                 patient?.resource?.name[0]?.given[0]
             )}
           </div>
         </td>
-        <td className="whitespace-nowrap px-6 py-4 max-w-28 truncate">
+        <td className=" bg-white whitespace-nowrap px-6 py-4 max-w-28 truncate">
           {patient?.resource?.name[0]?.text ||
             patient?.resource?.name[0]?.given[0]}
         </td>
-        <td className="whitespace-nowrap px-6 py-4 max-w-28 truncate">
-          {patient?.resource?.gender}
+        <td className=" bg-white whitespace-nowrap px-6 py-4 max-w-28 truncate">
+          {capitalize(patient?.resource?.gender)}
         </td>
-        <td className="whitespace-nowrap px-6 py-4 max-w-28 truncate">
+        <td className=" bg-white whitespace-nowrap px-6 py-4 max-w-28 truncate">
           {getDisplayYear(patient?.resource?.birthDate)}
         </td>
-        <td className="whitespace-nowrap px-6 py-4 max-w-28 truncate">
+        <td className=" bg-white whitespace-nowrap px-6 py-4 max-w-28 truncate  rounded-br-md rounded-tr-md">
           <button
-            className="rounded-full bg-blue-600 py-1 px-4 text-slate-50"
+            className="rounded-md bg-blue-600 py-1 px-4 text-slate-50"
             type="button"
             onClick={toggleModal}
           >
-            view
+            Details
           </button>
         </td>
       </tr>
-      <DetailsModal toggleModal={toggleModal} showModal={showModal} />
+      <DetailsModal
+        fullUrl={patient?.fullUrl}
+        toggleModal={toggleModal}
+        showModal={showModal}
+      />
     </>
   );
 }

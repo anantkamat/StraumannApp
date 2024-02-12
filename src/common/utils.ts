@@ -1,6 +1,10 @@
-import { RangeSelectorType, debounceFunction } from "./types";
+import { Address, RangeSelectorType, debounceFunction } from "./types";
 
-export function getDiffDate(diffValue: number, type: string) {
+export function getDiffDate(
+  diffValue: number,
+  type: string,
+  display: boolean = false
+) {
   const now = new Date();
   const diffDateVal = new Date();
   diffDateVal.setFullYear(now.getFullYear() - diffValue);
@@ -8,6 +12,10 @@ export function getDiffDate(diffValue: number, type: string) {
   const diffDate = diffDateVal.getDate();
   diffMonth = diffMonth < 10 ? "0" + diffMonth : diffMonth;
   const diffYear = diffDateVal.getFullYear();
+
+  if (display) {
+    return `${diffDate}-${diffMonth}-${diffYear}`;
+  }
 
   return `${type}${diffYear}-${diffMonth}-${diffDate}`;
 }
@@ -42,4 +50,36 @@ export function getInitials(name: string) {
     }
   }
   return retValue;
+}
+
+export function getRandomBG() {
+  const x = Math.floor(Math.random() * 256);
+  const y = Math.floor(Math.random() * 256);
+  const z = Math.floor(Math.random() * 256);
+  return "rgb(" + x + "," + y + "," + z + ")";
+}
+
+export function capitalize(s: string) {
+  return s && s[0].toUpperCase() + s.slice(1);
+}
+
+type K = keyof Address;
+
+export function getAddress(address: Address[]) {
+  if (address.length) {
+    const userAddress = address[0];
+    let locale = userAddress.line[0] || "";
+
+    const addresslines: K[] = ["city", "state", "country", "postalCode"];
+
+    addresslines.forEach((add) => {
+      if (userAddress[add]) {
+        locale +=
+          add === "postalCode"
+            ? ` - ${userAddress[add]}`
+            : `, ${userAddress[add]}`;
+      }
+    });
+    return locale;
+  }
 }
