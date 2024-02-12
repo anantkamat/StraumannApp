@@ -4,6 +4,7 @@ import {
   capitalize,
   getDisplayYear,
   getInitials,
+  getPatientName,
   getRandomBG,
 } from "../common/utils";
 import DetailsModal from "./detailsModal";
@@ -27,19 +28,17 @@ function PatientItem(props: ItemProps) {
         className="mb-1 rounded-md overflow-hidden border-b shadow-sm"
       >
         <td className=" bg-white whitespace-nowrap px-6 py-4 font-medium rounded-bl-md rounded-tl-md">
-          <div
-            className="w-8 h-8 rounded-full p-2 flex items-center justify-center"
-            style={{ backgroundColor: getRandomBG() }}
-          >
-            {getInitials(
-              patient?.resource?.name[0]?.text ||
-                patient?.resource?.name[0]?.given[0]
-            )}
-          </div>
+          {patient?.resource?.name && (
+            <div
+              className="w-8 h-8 rounded-full p-2 flex items-center justify-center font-bold"
+              style={{ backgroundColor: getRandomBG() }}
+            >
+              {getInitials(getPatientName(patient?.resource?.name[0]))}
+            </div>
+          )}
         </td>
         <td className=" bg-white whitespace-nowrap px-6 py-4 max-w-28 truncate">
-          {patient?.resource?.name[0]?.text ||
-            patient?.resource?.name[0]?.given[0]}
+          {getPatientName(patient?.resource?.name[0])}
         </td>
         <td className=" bg-white whitespace-nowrap px-6 py-4 max-w-28 truncate">
           {capitalize(patient?.resource?.gender)}

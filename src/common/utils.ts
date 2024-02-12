@@ -1,4 +1,4 @@
-import { Address, RangeSelectorType, debounceFunction } from "./types";
+import { Address, Name, RangeSelectorType, debounceFunction } from "./types";
 
 export function getDiffDate(
   diffValue: number,
@@ -44,7 +44,7 @@ export function getInitials(name: string) {
   let retValue: string = "";
   if (name !== "") {
     const nameSplit = name.split(" ");
-    retValue += nameSplit[0][0].toUpperCase();
+    retValue += nameSplit[0] && nameSplit[0][0].toUpperCase();
     if (nameSplit.length > 1) {
       retValue += nameSplit[nameSplit.length - 1][0].toUpperCase();
     }
@@ -82,4 +82,20 @@ export function getAddress(address: Address[]) {
     });
     return locale;
   }
+}
+
+export function getPatientName(name: Name) {
+  let firstName = "";
+  let lastName = "";
+  if (name?.text) {
+    firstName += name?.text;
+  } else if (name?.given) {
+    firstName += name?.given[0];
+  }
+
+  if (name?.family) {
+    lastName += ` ${name?.family}`;
+  }
+
+  return firstName + lastName;
 }

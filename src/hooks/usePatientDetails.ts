@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { PatientResource } from "../common/types";
 
 export function usePatientDetails() {
@@ -7,13 +7,20 @@ export function usePatientDetails() {
   >({});
   const [url, setUrl] = useState("");
 
+  const fetchPatientsDetails = useMemo(
+    () => async () => {
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          setPatientDetails(data);
+        })
+        .catch((error) => console.log(error));
+    },
+    [url]
+  );
+
   useEffect(() => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setPatientDetails(data);
-      })
-      .catch((error) => console.log(error));
+    fetchPatientsDetails();
   }, [url]);
 
   return {

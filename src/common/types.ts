@@ -7,7 +7,7 @@ interface Search {
   mode: string;
 }
 
-interface Name {
+export interface Name {
   family: string;
   text: string;
   given: string[];

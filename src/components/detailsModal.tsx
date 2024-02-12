@@ -5,6 +5,7 @@ import {
   getAddress,
   getDisplayYear,
   getInitials,
+  getPatientName,
   getRandomBG,
 } from "../common/utils";
 
@@ -33,17 +34,13 @@ export default function DetailsModal(props: ModalProps) {
                 {patientDetails?.name && (
                   <div className="flex items-center justify-center p-5 border-b border-solid border-blueGray-200 rounded-t">
                     <div
-                      className="w-12 h-12 rounded-full p-2 flex items-center justify-center text-3xl"
+                      className="w-12 h-12 font-bold rounded-full p-2 flex items-center justify-center text-2xl"
                       style={{ backgroundColor: getRandomBG() }}
                     >
-                      {getInitials(
-                        patientDetails?.name[0]?.text ||
-                          patientDetails?.name[0]?.given[0]
-                      )}
+                      {getInitials(getPatientName(patientDetails?.name[0]))}
                     </div>
                     <div className="text-2xl font-semibold ml-2">
-                      {patientDetails?.name[0]?.text ||
-                        patientDetails?.name[0]?.given[0]}
+                      {getPatientName(patientDetails?.name[0])}
                     </div>
 
                     <button
